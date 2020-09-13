@@ -1,0 +1,101 @@
+type Query{
+    user: User
+    users: [User]
+    product(id:ID!): Product
+    products: [Product]!
+    allCartItem: [CartItem]!
+}
+
+type Mutation{
+    ABV(ssg: Float, fsg: Float): Abv 
+    signup(name: String! email: String! password: String! ): User
+    login(email: String! password: String!): AuthData
+    requestResetPassword(email: String!): Message!
+    resetPassword(password: String!,token:String!): Message!
+    createProduct(description: String! price: Float! imageUrl: String!): Product!
+    updateProduct(id: ID! description: String price: Float imageUrl: String): Product!
+    deleteProduct(id: ID!): Product!
+    addToCart(id: ID!): CartItem!
+    deleteCart(id: ID!): CartItem!
+    createOrder(amount:Float! cardId: String token: String return_uri:String): Order
+}
+
+type Abv{
+    ssg: Float
+    fsg: Float
+    standard_formula: String
+    alternate_formula: String
+    abw_formula: String
+    standard_abv: Float
+    standard_abw: Float
+    alternate_abv: Float
+    alternate_abw: Float
+}
+
+scalar Date
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    products: [Product]
+    carts: [CartItem]
+    orders: [Order]!
+    cards: [Card]!
+    createdAt: Date!
+}
+
+type Product {
+    id: ID!
+    description: String!
+    price: Float!
+    imageUrl: String!
+    user: User!
+    createdAt: Date!
+}
+
+type CartItem{
+    id: ID!
+    product: Product!
+    quantity: Int!
+    user: User!
+    createdAt: Date!
+}
+
+type Card{
+    id: ID!,
+    cardInfo: CardInfo
+}
+
+type CardInfo{
+    id: ID!
+    expiration_month: Int!
+    expiration_year: Int!
+    brand: String!
+    last_digits: String!
+}
+
+type Order{
+    id: ID!
+    user: User!
+    items: [OrderItem!]!
+    authorize_uri: String
+    createdAt: Date!
+}
+
+type OrderItem{
+    id: ID!
+    product: Product!
+    quantity: Int!
+    user: User!
+    createdAt: Date!
+}
+
+type AuthData {
+    user: User
+    jwt: String
+}
+
+type Message{
+    message: String!
+}
