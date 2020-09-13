@@ -46,7 +46,7 @@ const Mutation = {
     
         if(!validPassword) throw new Error('Invalid email or password.')
     
-        const token = jwt.sign({userId: user.id}, process.env.SECRET, {expiresIn:'7days'})
+        const token = jwt.sign({userId: user.id},"8931b2faa6d70e124aa9b38f8a3dface8d66168ef9a02e2ea27fb7832d0d6e2e798366a6b44b9eae219ca365b8d75c4820ece130951d6d12b3e969fce8814b02", {expiresIn:'7days'})
     
         return {user, jwt: token}
     },
@@ -71,7 +71,7 @@ const Mutation = {
                 "headers": {
                     "content-type": "application/json",
                     "x-rapidapi-host": "rapidprod-sendgrid-v1.p.rapidapi.com",
-                    "x-rapidapi-key": process.env.MAIL_API_KEY,
+                    "x-rapidapi-key": "ac36a5e47bmsh59e0e449eb248bfp1a64ddjsn90ea5ddd6a92",
                     "accept": "application/json",
                     "useQueryString": true
                 },

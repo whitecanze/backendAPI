@@ -15,7 +15,7 @@ const {
 const createServer = async () => {
     try {
         await mongoose.connect(
-            `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@graphql-basic.7dgl9.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
+            `mongodb+srv://whitecanze123:JQrSlA67Icy1kxKA@graphql-basic.7dgl9.mongodb.net/ecommerce?retryWrites=true&w=majority`,
             { useUnifiedTopology : true , useFindAndModify: false},
         )
 

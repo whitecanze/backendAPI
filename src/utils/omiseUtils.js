@@ -3,8 +3,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const omise = OmiseFn({
-    publicKey: process.env.OMISE_PUBLIC_KEY,
-    secretKey: process.env.OMISE_SECRET_KEY
+    publicKey: "pkey_test_5l25k6hnm9vsjgl85pu",
+    secretKey: "skey_test_5l25k6hnnpq4bkhvy77"
 })
 
 export const retrieveCustomer = id => {
