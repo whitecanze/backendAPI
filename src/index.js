@@ -25,7 +25,7 @@ const createServer = async () => {
         server.applyMiddleware({ app })
         app.get("/playground", expressPlayground({ endpoint: `${server.graphqlPath}`}));
         app.listen({ port: `${PORT}`}, () =>
-            console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+            console.log(`🚀 Server ready at http://localhost:${PORT}/playground`)
         )
     } catch (error) {
         console.log(error)
