@@ -86,7 +86,7 @@ const Mutation = {
                         "value": `
                             <div>
                                 <p>Please click below link to reset your password.</p>
-                                <a href='https://basic-ecommerce-front-end.vercel.app//signin/resetpass?resetToken=${resetPasswordToken}' target='blank' style="color:orange;">Click to reset your password</a>
+                                <a href='https://basic-ecommerce-front-end.vercel.app/signin/resetpass?resetToken=${resetPasswordToken}' target='blank' style="color:orange;">Click to reset your password</a>
                             </div>
                         `
                     }]
