@@ -10,6 +10,10 @@ const typeDefs = fs.readFileSync(path.join(__dirname,"./schema","schema.graphql"
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    engine: {    
+        reportSchema: true,
+        variant: "current"
+    },
     context: ({ req }) => {
         // Check token from headers
         const token = req.headers.authorization || ''
