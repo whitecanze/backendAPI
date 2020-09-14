@@ -2,6 +2,7 @@ import express from 'express'
 import server from './server'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
+import expressPlayground from 'graphql-playground-middleware-express'
 
 config()
 
@@ -22,7 +23,7 @@ const createServer = async () => {
         const app = express()
 
         server.applyMiddleware({ app })
-
+        app.get("/playground", expressPlayground({ endpoint: `${server.graphqlPath}`}));
         app.listen({ port: `${PORT}`}, () =>
             console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
         )

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon -r esm src/index.js"
+    "dev": "nodemon -r esm src/index.js",
+    "start": "node -r esm src/index.js"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "graphql-iso-date": "^3.6.1",
+    "graphql-playground-middleware-express": "^1.7.20",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.0",
     "node-fetch": "^2.6.1",
