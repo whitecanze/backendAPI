@@ -26,6 +26,34 @@ const Mutation = {
 
         return User.create({...args, email,password})
     },
+    changePassword:async (parent, args, context, info) => {
+
+        const {user_id,old_password,new_password} = args
+        
+        const currentUsers = await User.findOne({ user_id })
+            .populate({ path: "products", populate: { path: "user" } })
+            .populate({ path: 'carts', populate: { path: 'product' } })
+            .populate({
+                path: 'orders', options: { sort: { createdAt: 'desc' } },
+                populate: { path: 'items', populate: { path: 'product' } }
+            })
+
+        if (!currentUsers) throw new Error('Something went wrong, please try again.')
+
+        //Check if password is correct
+        const validPassword = await Bcrypt.compare(old_password,currentUsers.password)
+    
+        if(!validPassword) throw new Error('Invalid password.')
+
+        if (new_password.trim().length < 6) throw new Error('Password must be least 6 charactor.')
+        
+        const hashedPassword = await Bcrypt.hash(new_password, 10)
+        await User.findByIdAndUpdate(user_id, {
+            password: hashedPassword
+        })
+        // return message
+        return { message: 'You have successfully change your new password.' }
+    },
     login:async(parent, args, context, info) => {
         const { email, password } = args
         
