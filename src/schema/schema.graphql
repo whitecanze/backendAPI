@@ -9,7 +9,7 @@ type Query{
 type Mutation{
     ABV(ssg: Float, fsg: Float): Abv 
     signup(name: String! email: String! password: String! ): User
-    changePassword(user_id: ID! old_password: String! new_password: String! ): Message!
+    changePassword(email: String! old_password: String! new_password: String! ): Message!
     login(email: String! password: String!): AuthData
     requestResetPassword(email: String!): Message!
     resetPassword(password: String!,token:String!): Message!

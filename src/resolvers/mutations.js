@@ -28,9 +28,9 @@ const Mutation = {
     },
     changePassword:async (parent, args, context, info) => {
 
-        const {user_id,old_password,new_password} = args
+        const {email,old_password,new_password} = args
         
-        const currentUsers = await User.findOne({ user_id })
+        const currentUsers = await User.findOne({ email })
             .populate({ path: "products", populate: { path: "user" } })
             .populate({ path: 'carts', populate: { path: 'product' } })
             .populate({
@@ -48,7 +48,7 @@ const Mutation = {
         if (new_password.trim().length < 6) throw new Error('Password must be least 6 charactor.')
         
         const hashedPassword = await Bcrypt.hash(new_password, 10)
-        await User.findByIdAndUpdate(user_id, {
+        await User.findByIdAndUpdate(currentUsers.id, {
             password: hashedPassword
         })
         // return message
