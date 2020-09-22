@@ -101,6 +101,7 @@ type AuthData {
 
 type BlackList{
     jwt: String
+    createdAt: Date!
 }
 
 type Message{
