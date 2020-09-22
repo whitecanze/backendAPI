@@ -83,8 +83,7 @@ const Mutation = {
     },
     makeBlackList:async(parent, args, context, info) => {
         const { jwt } = args
-        await BlackList.create(jwt)
-        return BlackList.find({})
+        return BlackList.create({jwt:jwt})
     },
     requestResetPassword: async (parent, { email }, context, info) => {
         // 1. find user in database by email
