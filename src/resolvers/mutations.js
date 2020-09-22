@@ -67,7 +67,9 @@ const Mutation = {
                 populate: { path: 'items', populate: { path: 'product' } }
             })
 
-        
+        // const blackList = await BlackList.find({})
+
+
         if (!user) throw new Error('Email not found, please sign up.')
 
         //Check if password is correct
@@ -81,7 +83,8 @@ const Mutation = {
     },
     makeBlackList:async(parent, args, context, info) => {
         const { jwt } = args
-        return BlackList.create(jwt)
+        await BlackList.create(jwt)
+        return BlackList.find({})
     },
     requestResetPassword: async (parent, { email }, context, info) => {
         // 1. find user in database by email
