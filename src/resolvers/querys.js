@@ -1,8 +1,7 @@
 import User from '../models/user'
 import Product from '../models/product'
 import CartItem from '../models/cartItem'
-
-
+import BlackList from '../models/BlackList'
 
 const Query = {
     user: (parent, args, { userId }, info) => {
@@ -14,6 +13,7 @@ const Query = {
             .populate({ path: 'carts', populate: { path: 'product' } })
             .populate({path:'orders',options:{sort:{createdAt: 'desc'}},populate:{path:'items',populate:{path:'product'}}})
     },
+    checkBlackList:(parent, args, context, info) => BlackList.find({}),
     users: (parent, args, context, info) => User.find({})
         .populate({ path: "products", populate: { path: "user" }})
         .populate({ path: 'carts', populate: { path: 'product' } }),

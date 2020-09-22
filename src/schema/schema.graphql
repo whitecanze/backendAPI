@@ -4,6 +4,7 @@ type Query{
     product(id:ID!): Product
     products: [Product]!
     allCartItem: [CartItem]!
+    checkBlackList: [BlackList]
 }
 
 type Mutation{
@@ -19,6 +20,7 @@ type Mutation{
     addToCart(id: ID!): CartItem!
     deleteCart(id: ID!): CartItem!
     createOrder(amount:Float! cardId: String token: String return_uri:String): Order
+    makeBlackList(jwt: String!): BlackList
 }
 
 type Abv{
@@ -94,6 +96,10 @@ type OrderItem{
 
 type AuthData {
     user: User
+    jwt: String
+}
+
+type BlackList{
     jwt: String
 }
 

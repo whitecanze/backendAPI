@@ -8,6 +8,7 @@ import axios from 'axios'
 import { retrieveCustomer, createCustomer, createChargeCard, createChargeInternetBanking } from '../utils/omiseUtils'
 import OrderItem from '../models/OrderItem'
 import Order from '../models/Order'
+import BlackList from '../models/BlackList'
 
 const Mutation = {
     signup:async (parent, args, context, info) => {
@@ -77,6 +78,10 @@ const Mutation = {
         const token = jwt.sign({userId: user.id},"8931b2faa6d70e124aa9b38f8a3dface8d66168ef9a02e2ea27fb7832d0d6e2e798366a6b44b9eae219ca365b8d75c4820ece130951d6d12b3e969fce8814b02", {expiresIn:'7days'})
     
         return {user, jwt: token}
+    },
+    makeBlackList:async(parent, args, context, info) => {
+        const { jwt } = args
+        return BlackList.create(jwt)
     },
     requestResetPassword: async (parent, { email }, context, info) => {
         // 1. find user in database by email
