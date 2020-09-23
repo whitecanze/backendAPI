@@ -5,6 +5,8 @@ type Query{
     products: [Product]!
     allCartItem: [CartItem]!
     checkBlackList: [BlackList]
+    allTodoList: [TodoList]
+    userTodoList: [TodoList]
 }
 
 type Mutation{
@@ -21,6 +23,10 @@ type Mutation{
     deleteCart(id: ID!): CartItem!
     createOrder(amount:Float! cardId: String token: String return_uri:String): Order
     makeBlackList(jwt: String): BlackList
+    createTodoList( text: String!): TodoList
+    updateTodoList(id: ID! ): Message!
+    deleteTodoList(id: ID! ): TodoList
+    
 }
 
 type Abv{
@@ -106,4 +112,12 @@ type BlackList{
 
 type Message{
     message: String!
+}
+
+type TodoList{
+    id: ID!
+    user: User!
+    text: String!
+    completed: Boolean!
+    createdAt: Date!
 }

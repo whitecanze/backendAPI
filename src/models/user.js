@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema({
         ref: 'Product'
         }
     ],
+    todolist: [
+        {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'TodoList'
+        }
+    ],
     carts: [
         {
         type: mongoose.Schema.Types.ObjectId,

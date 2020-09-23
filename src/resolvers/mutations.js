@@ -9,6 +9,7 @@ import { retrieveCustomer, createCustomer, createChargeCard, createChargeInterne
 import OrderItem from '../models/OrderItem'
 import Order from '../models/Order'
 import BlackList from '../models/BlackList'
+import TodoList from '../models/TodoList'
 
 const Mutation = {
     signup:async (parent, args, context, info) => {
@@ -26,6 +27,86 @@ const Mutation = {
         const password = await Bcrypt.hash(args.password, 10)
 
         return User.create({...args, email,password})
+    },
+    createTodoList: async (parent, args, {userId}, info) => {
+        if (!userId) throw new Error('Please login.')
+
+        if(!args.text) throw new Error("Please provide all required fields.")
+
+        const todolist = await TodoList.create({ ...args, user: userId })
+        const user = await User.findById(userId)
+
+        if (!user.todolist) {
+            user.todolist = [todolist]
+        } else {
+            user.todolist.push(todolist)
+        }
+
+        await user.save()
+
+        return TodoList.findById(todolist.id).populate({
+            path: "user",
+            populate: {
+                path:"todolist"
+            }
+        })
+
+    },
+    updateTodoList: async (parent, args, {userId}, info) => {
+
+        const { id} = args
+
+        // TODO: Check if user logged in
+        if (!userId) throw new Error("Please login.")
+        // Find product in database
+        const todolist = await TodoList.findById(id)
+
+        // TODO: Check if user is the owner of the product
+        // const userId = "5f43628d999d5605d066e435"
+
+        if (userId !== todolist.user.toString()) {
+            throw new Error("You are not authorized.")
+        }
+
+        // Update product in database
+        if (todolist.completed === false) {
+            await TodoList.findByIdAndUpdate(id, {completed: true})
+        }else {
+            await TodoList.findByIdAndUpdate(id, {completed: false})
+        }
+
+        return { message: 'Todolist updated.' }
+    },
+    deleteTodoList: async (parent, args, {userId}, info) => {
+        const { id } = args
+
+        if (!userId) throw new Error('Please login.')
+        // Find cart from given id
+        const todolist = await TodoList.findById(id)
+
+        // TODO: Check if user logged in
+
+        // TODO: user id from request --> Find user
+        // const userId = "5f43692ab88fbe346cbe7c22"
+
+        const user = await User.findById(userId)
+
+        // Check ownership of the TodoList
+        if (todolist.user.toString() !== userId) {
+            throw new Error("Not authorized.")
+        }
+
+        // Delete TodoList
+        const deletedTodoList = await TodoList.findByIdAndRemove(id)
+
+        // Update user's carts
+        const updatedUserTodoList = user.todolist.filter(
+            todolistId => todolistId.toString() !== deletedTodoList.id.toString()
+        )
+
+        await User.findByIdAndUpdate(userId, { todolist: updatedUserTodoList })
+
+        return deletedTodoList
     },
     changePassword:async (parent, args, context, info) => {
 

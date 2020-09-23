@@ -2,6 +2,7 @@ import User from '../models/user'
 import Product from '../models/product'
 import CartItem from '../models/cartItem'
 import BlackList from '../models/BlackList'
+import TodoList from '../models/TodoList'
 
 const Query = {
     user: (parent, args, { userId }, info) => {
@@ -13,7 +14,10 @@ const Query = {
             .populate({ path: 'carts', populate: { path: 'product' } })
             .populate({path:'orders',options:{sort:{createdAt: 'desc'}},populate:{path:'items',populate:{path:'product'}}})
     },
-    checkBlackList:(parent, args, context, info) => BlackList.find({}),
+    checkBlackList: (parent, args, context, info) => BlackList.find({}),
+    allTodoList: (parent, args, context, info) => TodoList.find({}),
+    userTodoList: (parent, args, context, info) => TodoList.find()
+        .populate({ path: "user", populate: { path: "todolist" } }).sort({ createdAt: 'desc' }),
     users: (parent, args, context, info) => User.find({})
         .populate({ path: "products", populate: { path: "user" }})
         .populate({ path: 'carts', populate: { path: 'product' } }),
