@@ -22,7 +22,8 @@ const server = new ApolloServer({
         const userId = getUser(token)
         // console.log('User id -->',userId)
         return { userId }
-    }
+    },
+    introspection:true
 })
 
 export default server
