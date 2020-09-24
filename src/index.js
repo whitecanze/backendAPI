@@ -3,7 +3,7 @@ import server from './server'
 import mongoose from 'mongoose'
 import { config } from 'dotenv'
 import expressPlayground from 'graphql-playground-middleware-express'
-
+import cors from 'cors'
 config()
 
 const {
@@ -21,7 +21,7 @@ const createServer = async () => {
         )
 
         const app = express()
-
+        app.use(cors())
         server.applyMiddleware({ app })
         app.get("/playground", expressPlayground({ endpoint: `${server.graphqlPath}`}));
         app.listen({ port: `${PORT}`}, () =>
